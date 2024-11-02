@@ -1,0 +1,102 @@
+#include
+<stdio.h>
+  #include
+  <stdlib.h>
+    #include
+    <windows.h>
+      #include
+      <string.h>
+        int year, month, day, daysInMonth, weekDay = 0, startingDay; char
+        *months[] = {"January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"}; int
+        monthDay[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; char
+        *monthsBangla[] = {"Baishakh", "Jaishtha", "Ashar", "Srabon", "Bhadra",
+        "Ashwin", "Karttik", "Agrahayan", "Paush", "Magh", "Falgun", "Chaitra"};
+        int monthDayBangla[] = {31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 30, 30};
+        // Finding English 1st Date of the Year int firstDayOfTheYear(int year)
+        { int d; d = (((year - 1) * 365) + ((year - 1) / 4) - ((year - 1) / 100)
+        + ((year) / 400) + 1) % 7; return d; } // Finding Bangla 1st Date of the
+        Year int banglaFirstDayOfTheYear(int year) { int d; year = year + 593; d
+        = (14 + 26 * (4 + 1) / 10 + year + year / 4 - year / 100 + year / 400) %
+        7; return d; } // Checking Leap Year void checkingLeapYear() { if ((year
+        % 4 == 0 && year % 100 != 0) || year % 400 == 0) monthDay[1] = 29; } //
+        Checking Bangla Leap Year if (((year + 594) % 4 == 0 && (year + 594) %
+        100 != 0) || (year + 594) % 400 == 0) monthDayBangla[10] = 30; //
+        Function For Printing English Year void PrintingYear() { system("cls");
+        checkingLeapYear(); startingDay = firstDayOfTheYear(year); for (month =
+        0; month < 12; month++) { daysInMonth = monthDay[month];
+        printf("\n\n---------------%s-------------------\n", months[month]);
+        printf("\n Sun Mon Tue Wed Thu Fri Sat\n"); for (weekDay = 0; weekDay <
+        startingDay; weekDay++) printf(" "); for (day = 1; day <= daysInMonth;
+        day++) { printf("%5d", day); if (++weekDay > 6) { printf("\n"); weekDay
+        = 0; } } startingDay = weekDay; } } // Function For Printing English
+        Month void PrintingMonth(int month) { system("cls"); checkingLeapYear();
+        startingDay = firstDayOfTheYear(year); daysInMonth = monthDay[month];
+        printf("\n\n---------------%s-------------------\n", months[month]);
+        printf("\n Sun Mon Tue Wed Thu Fri Sat\n"); for (weekDay = 0; weekDay <
+        startingDay; weekDay++) printf(" "); for (day = 1; day <= daysInMonth;
+        day++) { printf("%5d", day); if (++weekDay > 6) { printf("\n"); weekDay
+        = 0; } } startingDay = weekDay; } // Printing Bangla Year void
+        PrintingBanglaYear() { system("cls"); startingDay =
+        banglaFirstDayOfTheYear(year); for (month = 0; month < 12; month++) {
+        daysInMonth = monthDayBangla[month];
+        printf("\n\n---------------%s-------------------\n",
+        monthsBangla[month]); printf("\n Sat Sun Mon Tue Wed Thu Fri\n"); for
+        (weekDay = 0; weekDay < startingDay; weekDay++) printf(" "); for (day =
+        1; day <= daysInMonth; day++) { printf("%5d", day); if (++weekDay > 6) {
+        printf("\n"); weekDay = 0; } } startingDay = weekDay; } } // Printing
+        Bangla Month void PrintingBanglaMonth(int month) { system("cls");
+        startingDay = banglaFirstDayOfTheYear(year); daysInMonth =
+        monthDayBangla[month];
+        printf("\n\n---------------%s-------------------\n",
+        monthsBangla[month]); printf("\n Sat Sun Mon Tue Wed Thu Fri\n"); for
+        (weekDay = 0; weekDay < startingDay; weekDay++) printf(" "); for (day =
+        1; day <= daysInMonth; day++) { printf("%5d", day); if (++weekDay > 6) {
+        printf("\n"); weekDay = 0; } } startingDay = weekDay; } // Printing
+        Specific Date void PrintingSpecificDate(int d, int m, int y) { int h; if
+        (m == 1) m = 13, y--; if (m == 2) m = 14, y--; h = (d + 26 * (m + 1) /
+        10 + y + y / 4 - y / 100 + y / 400) % 7; switch (h) { case 0:
+        printf("Saturday\n"); break; case 1: printf("Sunday\n"); break; case 2:
+        printf("Monday\n"); break; case 3: printf("Tuesday\n"); break; case 4:
+        printf("Wednesday\n"); break; case 5: printf("Thursday\n"); break; case
+        6: printf("Friday\n"); } } // Function to Add Note void AddNote() { char
+        *p; char date[50], event[300]; FILE *fp = fopen("event.txt", "a");
+        printf("Enter date:\n"); scanf("%s", date); printf("Enter your
+        Event:\n"); scanf(" %[^\t]", event); if (p = strchr(event, '\n') !=
+        NULL) *p = '\n'; fprintf(fp, "\n----------------------------\n");
+        fprintf(fp, "Date:\n%s", date); fprintf(fp, "\nEvent:%s", event);
+        fprintf(fp, "\n-----------------------------\n"); fclose(fp); } //
+        Function to View Note void ViewNote() { FILE *r = fopen("event.txt",
+        "r"); char c; while (1) { c = fgetc(r); if (c == EOF) break;
+        printf("%c", c); } fclose(r); } // Function to Add Note in Bangla void
+        AddNoteBangla() { char *p; char date[50], note[300]; FILE *fp =
+        fopen("note.txt", "a"); printf("Enter date:\n"); scanf("%s", date);
+        printf("Enter your Event:\n"); scanf(" %[^\t]", note); if (p =
+        strchr(note, '\n') != NULL) *p = '\n'; fprintf(fp,
+        "\n----------------------------\n"); fprintf(fp, "Date:\n%s", date);
+        fprintf(fp, "\nEvent:%s", note); fprintf(fp,
+        "\n-----------------------------\n"); fclose(fp); } // Function to View
+        Note in Bangla void ViewNoteBangla() { FILE *r = fopen("note.txt", "r");
+        char c; while (1) { c = fgetc(r); if (c == EOF) break; printf("%c", c);
+        } fclose(r); } // Main Function int main() { system("Color 5F"); int x;
+        menu: { printf("Which Calendar do you want to see?\n\n"); printf("1.
+        English Calendar \n"); printf("2. Bangla Calendar \n"); scanf("%d", &x);
+        switch (x) { case 1: { printf("Enter Year:\n"); scanf("%d", &year);
+        printf("Choose Option:\n"); printf("1. Year \n"); printf("2. Month \n");
+        printf("3. Date \n"); printf("4. Add Note \n"); printf("5. View Note
+        \n"); scanf("%d", &x); switch (x) { case 1: PrintingYear(); break; case
+        2: printf("Enter Month (0-11):\n"); scanf("%d", &month);
+        PrintingMonth(month); break; case 3: { int d, m, y; printf("Enter Date
+        as dd-mm-yyyy:\n"); scanf("%d-%d-%d", &d, &m, &y);
+        PrintingSpecificDate(d, m, y); break; } case 4: AddNote(); break; case
+        5: ViewNote(); break; } break; } case 2: { printf("Enter Year:\n");
+        scanf("%d", &year); printf("Choose Option:\n"); printf("1. Year \n");
+        printf("2. Month \n"); printf("3. Add Note \n"); printf("4. View Note
+        \n"); scanf("%d", &x); switch (x) { case 1: PrintingBanglaYear(); break;
+        case 2: printf("Enter Month (0-11):\n"); scanf("%d", &month);
+        PrintingBanglaMonth(month); break; case 3: AddNoteBangla(); break; case
+        4: ViewNoteBangla(); break; } break; } } } getch(); }
+      </string.h></windows.h
+    ></stdlib.h
+  ></stdio.h
+>
